@@ -46,11 +46,14 @@ export default function HomeScreen() {
     moves: ["Quick Attack", "Thunderbolt", "Tail Whip", "Growl"],
     weaknesses: ["Ground"],
   };
+
   return (<>
     <SafeAreaView style={styles.container}>
       <ScrollView >
 
-        <Pokemon data={charmanderData}/>
+        <Pokemon  
+        data={charmanderData}
+        />
         <Pokemon data={pikachuData}/>
         <Pokemon data={squirtleData}/>
         <Pokemon data={bulbasaurData}/>

@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image, ScrollView, Platform, Pressable } from 'react-native';
 
 const getTypeDetails = (type :any ) => {
     if (typeof type !== 'string') {
@@ -20,10 +20,13 @@ const getTypeDetails = (type :any ) => {
     }
 };
 
-const PokemonCard = (props  : any ) => {
-    const { name, image, type, hp, moves = [], weaknesses = [] } = props.data;
-    const { borderColor, emoji } = getTypeDetails(type);
 
+const PokemonCard = (props   :any    ) => {
+    const { name, image, type, hp, moves = [], weaknesses = [] } = props.data;
+    const  name1 = props.data.name ?  props.data.name : "Unamed "
+    const { borderColor, emoji } = getTypeDetails(type);
+    const [IsHovered ,setIsHovered] = useState(true);
+   
     return (
         <ScrollView>
             <View style={styles.card}>
@@ -37,15 +40,20 @@ const PokemonCard = (props  : any ) => {
                     style={styles.image}
                     resizeMode="contain"
                 />
-                <View style={styles.typeContainer}>
-                    <View style={[styles.badge, { borderColor }]}>
-                        <Text style={styles.typeEmoji}>{emoji}</Text>
-                        <Text style={styles.typeText}>{type}</Text>
-                    </View>
-                </View>
-                <View style={styles.movesContainer}>
-                    <Text style={styles.movesText}>Moves: {moves.join(", ")}</Text>
-                </View>
+                        <Pressable
+                                onHoverIn={() => setIsHovered(true)}
+                                onHoverOut={() => setIsHovered(false)}
+                            >
+                            <View style={styles.typeContainer  }>
+                                <View style={[styles.badge, { borderColor } ,IsHovered ?  styles.badge : styles.badgeHoverd]}>
+                                    <Text style={styles.typeEmoji}>{emoji}</Text>
+                                    <Text style={styles.typeText}>{type}</Text>
+                                </View>
+                            </View>
+                        </Pressable>
+                        <View style={styles.movesContainer}>
+                            <Text style={styles.movesText}>Moves: {moves.join(", ")}</Text>
+                        </View>
                 <View style={styles.weaknessContainer}>
                     <Text style={styles.weaknessText}>Weakness: {weaknesses.join(", ")}</Text>
                 </View>
@@ -104,6 +112,19 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         borderRadius: 20,
         borderWidth: 4,
+    },
+    badgeHoverd: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 20,
+        borderWidth: 4,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        backgroundColor: "#ddd", // E
     },
     typeEmoji: {
         fontSize: 30,
